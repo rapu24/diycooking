@@ -1,7 +1,7 @@
 import Head from 'next/head'
 import { client } from '../../lib/apollo';
 import { gql } from "@apollo/client";
-import { useState, useEffect, useLayoutEffect } from 'react';
+import { useState,  useLayoutEffect } from 'react';
 
 
 export default function SlugPage({ post }) {
