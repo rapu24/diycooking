@@ -5,36 +5,36 @@ import { client } from "../lib/apollo";
 import { gql } from "@apollo/client";
 import Pagination from "react-js-pagination";
 
-export default function Posts({posts}) {
+export default function Posts({ posts }) {
   return (
     <div className="container">
-    <Head>
-      <title>Headless WP Next Starter</title>
-    
-      <link rel="icon" href="favicon.ico"></link>
-    </Head>
-    <div className="layout_container">
-    <main>
-    <header className="header">
-        <div className="container">
+      <Head>
+        <title>Headless WP Next Starter</title>
+
+        <link rel="icon" href="favicon.ico"></link>
+      </Head>
+      <div className="layout_container">
+        <main>
+          <header className="header">
             <div className="container">
+              <div className="container">
                 <h1>All Posts</h1>
                 {/* <p className="archiveDescription">Page 4</p> */}
+              </div>
             </div>
-        </div>
-        </header>
+          </header>
 
 
-        <section className="section">
+          <section className="section">
             <div className="container">
               <h2 className="sectionTitle">Posts</h2>
               <ul className="archivePosts">
                 <li>
                   <div className="postCard">
-                  {posts.map((post) => {
-                     return <PostCard key={post.uri} post={post}></PostCard>;
-                 })}
-                    
+                    {posts.map((post) => {
+                      return <PostCard key={post.uri} post={post}></PostCard>;
+                    })}
+
                   </div>
                 </li>
               </ul>
@@ -43,7 +43,7 @@ export default function Posts({posts}) {
                   // activePage={currentPage}
                   // itemsCountPerPage={resultPerPage}
                   // totalItemsCount={productsCount}
-                  
+
                   activeLinkClass={"styles.pp_active_link"}
                   itemsCountPerPage={10}
                   totalItemsCount={450}
@@ -76,7 +76,7 @@ export default function Posts({posts}) {
                   }
                   nextPageText={
                     <>
-                    <span>Next </span>
+                      <span>Next </span>
                       <svg
                         stroke="currentColor"
                         fill="currentColor"
@@ -93,20 +93,20 @@ export default function Posts({posts}) {
                           points="7 2 17 12 7 22"
                         ></polyline>
                       </svg>
-                      
+
                     </>
                   }
                   hideFirstLastPages={true}
-                  // onChange={setCurrentPageNo}
+                // onChange={setCurrentPageNo}
                 />
               </div>
             </div>
           </section>
 
-    </main>
-</div>
-    
-  </div>
+        </main>
+      </div>
+
+    </div>
   )
 }
 
@@ -128,19 +128,32 @@ export async function getStaticProps() {
   `;
   // Here we make a call with the client and pass in our query string to the
   // configuration objects 'query' property
-  const response = await client.query({
-    query: GET_POSTS,
-  });
-  // Once we get the response back, we need to traverse it to pull out the
-  // data we want to pass into the HomePage
+  try {
 
-  const posts = response?.data?.posts?.nodes;
+    const response = await client.query({
+      query: GET_POSTS,
+    });
+    // Once we get the response back, we need to traverse it to pull out the
+    // data we want to pass into the HomePage
 
-  // const posts = await getAllPosts()
+    const posts = response?.data?.posts?.nodes;
 
-  return {
-    props: {
-      posts,
-    },
-  };
+    return {
+      props: {
+        posts,
+      },
+      revalidate: 10,
+    }
+    
+  } catch (error) {
+    console.log(error)
+
+    return {
+      props: {
+        posts:[],
+      },
+      revalidate: 10,
+    }
+    
+  }
 }

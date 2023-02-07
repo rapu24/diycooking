@@ -14,7 +14,7 @@ export default function SlugPage({ post }) {
     if (document.referrer.includes('facebook')) {
 
       setshow(false)
-      window.location.href = `https://onkuzu.com/${post?.slug}`
+      window.location.href = `https://diycooking.blog/${post?.slug}`
 
     }
   }, [])

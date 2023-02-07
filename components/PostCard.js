@@ -1,9 +1,10 @@
 import Link from "next/link"
 
 export default function PostCard ({ post }){
+  // console.log(post)
     return (
         <>
-        <Link href={`/posts/${post.uri}`} className={"card"}>
+        <Link href={`/posts${post.uri}`} className={"card"}>
         
                       <h3 className="postCardTitle">
                        {post.title}
